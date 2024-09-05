@@ -38,8 +38,8 @@ function App() {
                     showAlert()
                 }}>Show alert</a>}
 
-                <MainButton text="Submit" onClick={() => alert('submitted')} />
-                <BackButton onClick={() => window.history.back()} />
+                {WebApp.platform !== "unknown" && <MainButton text="Test Submit" onClick={() => alert('submitted')} />}
+                {/*<BackButton onClick={() => window.history.back()} />*/}
 
                 <br/>
                 <br/>
