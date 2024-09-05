@@ -20,7 +20,7 @@ function App() {
     const {connected} = useTonConnect();
 
     const showAlert = () => {
-      WebApp.showAlert("Hi");
+        WebApp.showAlert("Hi");
     };
 
     return (
@@ -33,9 +33,9 @@ function App() {
                 <b>Platform</b>
                 <div className='Hint'>{WebApp.platform}</div>
 
-                <a onClick={() => {
+                {WebApp.platform !== "unknown" && <a onClick={() => {
                     showAlert()
-                }}>Show alert</a>
+                }}>Show alert</a>}
 
                 <br/>
                 <br/>
