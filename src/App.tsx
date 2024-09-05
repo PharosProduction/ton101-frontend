@@ -39,7 +39,10 @@ function App() {
                 }}>Show alert</a>}
 
                 {WebApp.platform !== "unknown" && <MainButton text="Test Submit" onClick={() => alert('submitted')} />}
-                {WebApp.platform !== "unknown" && <BackButton onClick={() => window.history.back()} />}
+                {WebApp.platform !== "unknown" && <BackButton onClick={() => {
+                    alert('Test back');
+                    window.history.back();
+                }}/>}
 
                 <br/>
                 <br/>
