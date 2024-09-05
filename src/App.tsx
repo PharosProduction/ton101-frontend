@@ -1,6 +1,3 @@
-import {useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import {TonConnectButton} from "@tonconnect/ui-react";
 import {useMainContract} from "./hooks/useMainContract.ts";
@@ -11,8 +8,8 @@ function App() {
     const {
         contract_address,
         counter_value,
-        recent_sender,
-        owner,
+        // recent_sender,
+        // owner,
         contract_balance,
         sendIncrement,
         sendDeposit,
