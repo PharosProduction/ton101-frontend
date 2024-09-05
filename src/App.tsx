@@ -4,7 +4,7 @@ import {useMainContract} from "./hooks/useMainContract.ts";
 import {useTonConnect} from "./hooks/useTonConnect.ts";
 import {fromNano} from "@ton/core";
 import WebApp from "@twa-dev/sdk";
-import {BackButton, MainButton} from "@twa-dev/sdk/react";
+import {MainButton} from "@twa-dev/sdk/react";
 
 function App() {
     const {
