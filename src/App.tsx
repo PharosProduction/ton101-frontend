@@ -4,7 +4,7 @@ import {useMainContract} from "./hooks/useMainContract.ts";
 import {useTonConnect} from "./hooks/useTonConnect.ts";
 import {fromNano} from "@ton/core";
 import WebApp from "@twa-dev/sdk";
-import {MainButton} from "@twa-dev/sdk/react";
+import {BackButton, MainButton} from "@twa-dev/sdk/react";
 
 function App() {
     const {
@@ -39,7 +39,7 @@ function App() {
                 }}>Show alert</a>}
 
                 {WebApp.platform !== "unknown" && <MainButton text="Test Submit" onClick={() => alert('submitted')} />}
-                {/*<BackButton onClick={() => window.history.back()} />*/}
+                {WebApp.platform !== "unknown" && <BackButton onClick={() => window.history.back()} />}
 
                 <br/>
                 <br/>
