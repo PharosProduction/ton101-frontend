@@ -38,36 +38,39 @@ function App() {
     };
 
     return (
-        <div className="parent">
-            <div className="row">
-                <div className="column">
-                    <div className="Card">
+        <div className="container">
+            <div className="row flex-row">
+                <div className="col-sm-12 col-md">
+                    <div className="card p-4">
                         <TonConnectButton/>
-                    </div>
-                </div>
-
-                <div className="column">
-                    <div className='Card'>
+                        <br/>
+                        <br/>
                         <b>Platform</b>
                         <div className='Hint'>{WebApp.platform}</div>
-
-                        {WebApp.platform !== "unknown" && <a onClick={() => {
+                        <br/>
+                        <br/>
+                        {WebApp.platform !== "unknown" && <button onClick={() => {
                             showAlert()
-                        }}>Show alert</a>}
-
+                        }}>Show alert</button>}
+                        <br/>
+                        <br/>
                         {WebApp.platform !== "unknown" && <MainButton text="Test Submit" onClick={() => alert('submitted')}/>}
                         {WebApp.platform !== "unknown" && <BackButton onClick={() => {
                             alert('Test back');
                             window.history.back();
                         }}/>}
                         <br/>
+                    </div>
+                </div>
 
+                <div className="col-sm-12 col-md">
+                    <div className='card p-4'>
                         <b>Counter Address</b>
                         <div className='Hint'>{mainContractAddress?.slice(0, 30) + "..."}</div>
                         <br/>
 
                         <b>Counter Balance</b>
-                        <div className='Hint'>{fromNano(`${mainContractBalance}`).toString()} "💎TON"</div>
+                        <div className='Hint'>{fromNano(`${mainContractBalance}`).toString()} 💎TON</div>
                         <br/>
 
                         <b>Counter Value</b>
@@ -77,35 +80,35 @@ function App() {
                         <br/>
 
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendIncrement()
-                            }}>Increment by 2</a>
+                            }}>Increment by 2</button>
                         )}
                         <br/>
                         <br/>
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendDeposit()
-                            }}>Request deposit of 1.5 💎TON</a>
+                            }}>Request deposit of 1.5 💎TON</button>
                         )}
                         <br/>
                         <br/>
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendWithdrawalRequest()
-                            }}>Request 0.7 💎TON withdrawal</a>
+                            }}>Request 0.7 💎TON withdrawal</button>
                         )}
                     </div>
                 </div>
 
-                <div className="column">
-                    <div className='Card'>
+                <div className="col-sm-12 col-md">
+                    <div className='card p-4'>
                         <b>NFT Collection Address</b>
                         <div className='Hint'>{nftCollectionContractAddress?.slice(0, 30) + "..."}</div>
                         <br/>
 
                         <b>NFT Collection Balance</b>
-                        <div className='Hint'>{fromNano(`${nftCollectionContractBalance}`).toString()} "💎TON"</div>
+                        <div className='Hint'>{fromNano(`${nftCollectionContractBalance}`).toString()} 💎TON</div>
                         <br/>
 
                         <b>NFT Collection Owner</b>
@@ -124,30 +127,30 @@ function App() {
                         <br/>
 
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendDeployNft()
-                            }}>Deploy NFT</a>
+                            }}>Deploy NFT</button>
                         )}
                         <br/>
                         <br/>
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendBatchDeployNft()
-                            }}>Batch deploy NFTs</a>
+                            }}>Batch deploy NFTs</button>
                         )}
                         <br/>
                         <br/>
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendRoyaltyParams()
-                            }}>Send royalty params</a>
+                            }}>Send royalty params</button>
                         )}
                         <br/>
                         <br/>
                         {connected && (
-                            <a onClick={() => {
+                            <button onClick={() => {
                                 sendChangeOwner()
-                            }}>Change owner</a>
+                            }}>Change owner</button>
                         )}
                     </div>
                 </div>
