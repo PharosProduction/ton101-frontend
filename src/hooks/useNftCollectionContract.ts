@@ -62,10 +62,10 @@ export function useNftCollectionContract() {
         contract_balance: balance,
         ...contractData,
         sendDeployNft: async () => {
-            return nftCollectionContract?.sendDeployNft(sender, toNano("0.3"), mintParams);
+            return nftCollectionContract?.sendDeployNft(sender, toNano("0.05"), mintParams);
         },
         sendBatchDeployNft: async () => {
-            return nftCollectionContract?.sendBatchDeployNft(sender, toNano("1"), [mintParams, mintParams, mintParams]);
+            return nftCollectionContract?.sendBatchDeployNft(sender, toNano("0.05"), [mintParams, mintParams, mintParams]);
         },
         sendRoyaltyParams: async () => {
             return nftCollectionContract?.sendRoyaltyParams(sender, toNano("0.05"));
