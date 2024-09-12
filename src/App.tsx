@@ -66,7 +66,7 @@ function App() {
                 <div className="col-sm-12 col-md">
                     <div className='card p-4'>
                         <b>Counter Address</b>
-                        <div className='Hint'>{mainContractAddress?.slice(0, 30) + "..."}</div>
+                        <div className='Hint'>{mainContractAddress}</div>
                         <br/>
 
                         <b>Counter Balance</b>
@@ -104,7 +104,7 @@ function App() {
                 <div className="col-sm-12 col-md">
                     <div className='card p-4'>
                         <b>NFT Collection Address</b>
-                        <div className='Hint'>{nftCollectionContractAddress?.slice(0, 30) + "..."}</div>
+                        <div className='Hint'>{nftCollectionContractAddress}</div>
                         <br/>
 
                         <b>NFT Collection Balance</b>
@@ -112,7 +112,7 @@ function App() {
                         <br/>
 
                         <b>NFT Collection Owner</b>
-                        <div className='Hint'>{ownerAddress?.slice(0, 30) + "..."}</div>
+                        <div className='Hint'>{ownerAddress}</div>
                         <br/>
 
                         <b>NFTs in Collection</b>
