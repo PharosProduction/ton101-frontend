@@ -5,7 +5,7 @@ import {useAsyncInitialize} from "./useAsyncInitialize.ts";
 import {MainContract} from "../contracts/MainContract.ts";
 import {useTonConnect} from "./useTonConnect.ts";
 
-const mainContractAddress = "EQDLOQpA6uNTl70jYu_i-a9YqktvuAVcCg7s-hdpqcYdsiZL";
+const mainContractAddress = "EQAvJAP7cJHW7oQrI1laKq63UgNmD30Qt5uRN3XgNxDj0jWV";
 
 export function useMainContract() {
     const client = useTonClient();
@@ -32,8 +32,6 @@ export function useMainContract() {
     useEffect(() => {
         async function getValue() {
             if (!mainContract) return;
-
-            setContractData(null);
 
             const val = await mainContract.getStorageData();
             const {balance} = await mainContract.getBalance();

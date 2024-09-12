@@ -1,15 +1,16 @@
 import {Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode} from "@ton/core";
+import {OpCodes} from "./OpCodes";
 
 export type MainContractConfig = {
     number: number;
-    address: Address;
+    recentSender: Address;
     owner: Address;
 };
 
 export function mainContractConfigToCell(config: MainContractConfig): Cell {
     return beginCell()
         .storeUint(config.number, 32)
-        .storeAddress(config.address)
+        .storeAddress(config.recentSender)
         .storeAddress(config.owner)
         .endCell();
 }
@@ -45,7 +46,7 @@ export class MainContract implements Contract {
         incrementBy: number
     ) {
         const msgBody = beginCell()
-            .storeUint(1, 32)
+            .storeUint(OpCodes.increment, 32)
             .storeUint(incrementBy, 32)
             .endCell();
         await provider.internal(sender, {
@@ -57,7 +58,7 @@ export class MainContract implements Contract {
 
     async sendDeposit(provider: ContractProvider, sender: Sender, value: bigint) {
         const msgBody = beginCell()
-            .storeUint(2, 32)
+            .storeUint(OpCodes.deposit, 32)
             .endCell();
 
         await provider.internal(sender, {
@@ -87,7 +88,7 @@ export class MainContract implements Contract {
         amount: bigint
     ) {
         const msgBody = beginCell()
-            .storeUint(3, 32)
+            .storeUint(OpCodes.withdraw, 32)
             .storeCoins(amount)
             .endCell();
         await provider.internal(sender, {
