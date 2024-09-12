@@ -40,7 +40,7 @@ function App() {
     return (
         <div className="container">
             <div className="row flex-row">
-                <div className="col-sm-12 col-md">
+                <div className="col-sm-12 col-md m-2">
                     <div className="card p-4">
                         <TonConnectButton/>
                         <br/>
@@ -63,7 +63,7 @@ function App() {
                     </div>
                 </div>
 
-                <div className="col-sm-12 col-md">
+                <div className="col-sm-12 col-md m-2">
                     <div className='card p-4'>
                         <b>Counter Address</b>
                         <div className='Hint'>{mainContractAddress}</div>
@@ -101,7 +101,7 @@ function App() {
                     </div>
                 </div>
 
-                <div className="col-sm-12 col-md">
+                <div className="col-sm-12 col-md m-2">
                     <div className='card p-4'>
                         <b>NFT Collection Address</b>
                         <div className='Hint'>{nftCollectionContractAddress}</div>
