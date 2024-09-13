@@ -5,7 +5,7 @@ import {useAsyncInitialize} from "./useAsyncInitialize";
 import {useTonConnect} from "./useTonConnect";
 import {NftCollectionContract} from "../contracts/NftCollectionContract";
 
-const nftCollectionContractAddress = "kQCghwaaIRhGxJCrXLDTFb2CecBwdqwdXeXQm5OOdYv1XTya";
+const nftCollectionContractAddress = "EQDojztdCua5WIW2DSjy1d9kxdy8-RwbvPlpCKNUgofR2-S5";
 const nftContent = 'bafkreifumf564yv5zveb7tczbz5tqcdwhcuo476znhdejyxpjztcaafyx4';
 
 export type NftCollectionData = {
