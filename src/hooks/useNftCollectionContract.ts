@@ -1,6 +1,6 @@
 import {useTonClient} from "./useTonClient";
 import {useEffect, useState} from "react";
-import {Address, OpenedContract, toNano} from "@ton/core";
+import {Address, Dictionary, OpenedContract, toNano} from "@ton/core";
 import {useAsyncInitialize} from "./useAsyncInitialize";
 import {useTonConnect} from "./useTonConnect";
 import {NftCollectionContract} from "../contracts/NftCollection/NftCollectionContract.ts";
@@ -15,23 +15,30 @@ export type NftCollectionData = {
     content: string;
 }
 
-const bronzeTier = {
-    rank_52: "bafkreiblgiaqf37n2kme76km3637irvy5fjzftgi3vcxpjnhchcj5ogote"
+type Tier = "bronze" | "silver" | "gold";
+
+interface Dictionary {
+    [key: string]: string;
 }
-const silverTier = {
+
+const bronzeTier: Dictionary = {
+    "rank_52": "bafkreiblgiaqf37n2kme76km3637irvy5fjzftgi3vcxpjnhchcj5ogote"
+}
+const silverTier: Dictionary = {
     rank_7: "bafkreiezxqfi3snzoitqlgmuigvnaoxhcgjcixxts2dvtjkw7cs73xmlhy",
     rank_58: "bafkreifnmdb7wld6x56vjutnu44ritqyzpfyv5z3jqxoizieszkzmxx4ci"
 };
-const goldTier = {
+const goldTier: Dictionary = {
     rank_15: "bafkreifi5ouoec2puflpmtrql5sabmoej65xxia2mi53djymuo2eloxrbq",
     rank_83: "bafkreidylqapqlhiwmgiwklihogwgzmmuxsi54xmljdm2x72ap3zlfp5ve"
 }
-const ipfsUrls = {
+const ipfsUrls: Record<Tier, Dictionary> = {
     "bronze": bronzeTier,
     "silver": silverTier,
     "gold": goldTier
 }
-const tiers = ["bronze", "silver", "gold"];
+
+const tiers: Tier[] = ["bronze", "silver", "gold"];
 
 export function useNftCollectionContract() {
     const client = useTonClient();
@@ -74,7 +81,7 @@ export function useNftCollectionContract() {
         contract_balance: balance,
         ...contractData,
         sendDeployNft: async () => {
-            const tier: string = tiers[Math.floor(Math.random() * tiers.length)];
+            const tier: Tier = tiers[Math.floor(Math.random() * tiers.length)];
             console.log("TIER:", tier)
             const tierUrls = ipfsUrls[tier];
             const keys: string[] = Object.keys(tierUrls);
