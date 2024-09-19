@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {Address, OpenedContract, toNano} from "@ton/core";
 import {useAsyncInitialize} from "./useAsyncInitialize";
 import {useTonConnect} from "./useTonConnect";
-import {NftCollectionContract} from "../contracts/NftCollectionContract";
+import {NftCollectionContract} from "../contracts/NftCollection/NftCollectionContract.ts";
 
 const nftCollectionContractAddress = "kQDojztdCua5WIW2DSjy1d9kxdy8-RwbvPlpCKNUgofR218z";
 const nftContent = 'bafkreifumf564yv5zveb7tczbz5tqcdwhcuo476znhdejyxpjztcaafyx4';
@@ -36,8 +36,8 @@ export function useNftCollectionContract() {
         async function getValue() {
             if (!nftCollectionContract) return;
 
-            const {nextItemIndex, content, ownerAddress} = await nftCollectionContract.getCollectionData();
-            setContractData({nextItemIndex, content, ownerAddress});
+            // const {nextItemIndex, content, ownerAddress} = await nftCollectionContract.getCollectionData();
+            // setContractData({nextItemIndex, content, ownerAddress});
 
             const {balance} = await nftCollectionContract.getBalance();
             setBalance(balance);
