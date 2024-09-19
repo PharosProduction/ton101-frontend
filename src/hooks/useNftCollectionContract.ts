@@ -1,6 +1,6 @@
 import {useTonClient} from "./useTonClient";
 import {useEffect, useState} from "react";
-import {Address, Dictionary, OpenedContract, toNano} from "@ton/core";
+import {Address, OpenedContract, toNano} from "@ton/core";
 import {useAsyncInitialize} from "./useAsyncInitialize";
 import {useTonConnect} from "./useTonConnect";
 import {NftCollectionContract} from "../contracts/NftCollection/NftCollectionContract.ts";
@@ -17,22 +17,22 @@ export type NftCollectionData = {
 
 type Tier = "bronze" | "silver" | "gold";
 
-interface Dictionary {
+interface MintDictionary {
     [key: string]: string;
 }
 
-const bronzeTier: Dictionary = {
+const bronzeTier: MintDictionary = {
     "rank_52": "bafkreiblgiaqf37n2kme76km3637irvy5fjzftgi3vcxpjnhchcj5ogote"
 }
-const silverTier: Dictionary = {
+const silverTier: MintDictionary = {
     rank_7: "bafkreiezxqfi3snzoitqlgmuigvnaoxhcgjcixxts2dvtjkw7cs73xmlhy",
     rank_58: "bafkreifnmdb7wld6x56vjutnu44ritqyzpfyv5z3jqxoizieszkzmxx4ci"
 };
-const goldTier: Dictionary = {
+const goldTier: MintDictionary = {
     rank_15: "bafkreifi5ouoec2puflpmtrql5sabmoej65xxia2mi53djymuo2eloxrbq",
     rank_83: "bafkreidylqapqlhiwmgiwklihogwgzmmuxsi54xmljdm2x72ap3zlfp5ve"
 }
-const ipfsUrls: Record<Tier, Dictionary> = {
+const ipfsUrls: Record<Tier, MintDictionary> = {
     "bronze": bronzeTier,
     "silver": silverTier,
     "gold": goldTier
