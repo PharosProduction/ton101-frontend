@@ -4,15 +4,34 @@ import {Address, OpenedContract, toNano} from "@ton/core";
 import {useAsyncInitialize} from "./useAsyncInitialize";
 import {useTonConnect} from "./useTonConnect";
 import {NftCollectionContract} from "../contracts/NftCollection/NftCollectionContract.ts";
+import {txValue} from "../contracts/utils/constants.ts";
+import {MintParams} from "../contracts/NftCollection/NftCollectionTypes.ts";
 
-const nftCollectionContractAddress = "kQDojztdCua5WIW2DSjy1d9kxdy8-RwbvPlpCKNUgofR218z";
-const nftContent = 'bafkreifumf564yv5zveb7tczbz5tqcdwhcuo476znhdejyxpjztcaafyx4';
+const nftCollectionContractAddress = "kQBKninDkvnCsdM33_nHuMORlpw0uk_JuKZz6B13pSCjP9Id";
 
 export type NftCollectionData = {
     nextItemIndex: number;
-    content: string | undefined;
     ownerAddress: string;
+    content: string;
 }
+
+const bronzeTier = {
+    52: "bafkreiblgiaqf37n2kme76km3637irvy5fjzftgi3vcxpjnhchcj5ogote"
+}
+const silverTier = {
+    7: "bafkreiezxqfi3snzoitqlgmuigvnaoxhcgjcixxts2dvtjkw7cs73xmlhy",
+    58: "bafkreifnmdb7wld6x56vjutnu44ritqyzpfyv5z3jqxoizieszkzmxx4ci"
+};
+const goldTier = {
+    15: "bafkreifi5ouoec2puflpmtrql5sabmoej65xxia2mi53djymuo2eloxrbq",
+    83: "bafkreidylqapqlhiwmgiwklihogwgzmmuxsi54xmljdm2x72ap3zlfp5ve"
+}
+const ipfsUrls = {
+    "bronze": bronzeTier,
+    "silver": silverTier,
+    "gold": goldTier
+}
+const tiers = ["bronze", "silver", "gold"];
 
 export function useNftCollectionContract() {
     const client = useTonClient();
@@ -36,8 +55,8 @@ export function useNftCollectionContract() {
         async function getValue() {
             if (!nftCollectionContract) return;
 
-            // const {nextItemIndex, content, ownerAddress} = await nftCollectionContract.getCollectionData();
-            // setContractData({nextItemIndex, content, ownerAddress});
+            const {nextItemIndex, ownerAddress, content} = await nftCollectionContract.getCollectionData();
+            setContractData({nextItemIndex, ownerAddress, content});
 
             const {balance} = await nftCollectionContract.getBalance();
             setBalance(balance);
@@ -50,28 +69,31 @@ export function useNftCollectionContract() {
         getValue();
     }, [nftCollectionContract]);
 
-    const mintParams = {
-        queryId: 100,
-        itemOwnerAddress: sender.address!,
-        amount: toNano('0.05'),
-        commonContentUrl: nftContent
-    };
-
     return {
         contract_address: nftCollectionContract?.address.toString(),
         contract_balance: balance,
         ...contractData,
         sendDeployNft: async () => {
-            return nftCollectionContract?.sendDeployNft(sender, toNano("0.05"), mintParams);
-        },
-        sendBatchDeployNft: async () => {
-            return nftCollectionContract?.sendBatchDeployNft(sender, toNano("0.05"), [mintParams, mintParams, mintParams]);
-        },
-        sendRoyaltyParams: async () => {
-            return nftCollectionContract?.sendRoyaltyParams(sender, toNano("0.05"));
-        },
-        sendChangeOwner: async () => {
-            return nftCollectionContract?.sendChangeOwner(sender, toNano("0.05"), sender.address!);
+            const tier: string = tiers[Math.floor(Math.random() * tiers.length)];
+            console.log("TIER:", tier)
+            const tierUrls = ipfsUrls[tier];
+            const keys: string[] = Object.keys(tierUrls);
+            const rank: string = keys[Math.floor(Math.random() * keys.length)];
+            console.log("RANK:", tier)
+            const url = `https://ipfs.io/ipfs/${tierUrls[rank]}`;
+            console.log("URL:", url)
+
+            console.log("SENDER:", sender.address)
+
+            const mintParams: MintParams = {
+                queryId: 101,
+                itemOwnerAddress: sender.address!,
+                amount: txValue,
+                content: url
+            };
+            console.log("PARAMS:", mintParams)
+
+            return nftCollectionContract?.sendDeployNft(sender, toNano(txValue), mintParams);
         }
     };
 }

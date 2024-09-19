@@ -202,43 +202,10 @@ export class NftCollectionContract implements Contract {
     async getCollectionData(provider: ContractProvider) {
         const { stack } = await provider.get('get_collection_data', []);
         const nextItemIndex = stack.readNumber();
+        const content = decodeOffChainContent(stack.readCell())!;
+        const ownerAddress = stack.readAddress().toString();
 
-        const contentCell = stack.readCellOpt();
-        // const contentCell = stack.readCellOpt()?.beginParse();
-        // const offchainContent = decodeOffChainContent(contentCell?.loadRef());
-
-        // let collectionContent = null;
-        // if (contentCell !== null && contentCell !== undefined) {
-        //   const collectionContentCell = contentCell!.loadRef();
-        //
-        //   if (collectionContentCell !== null && collectionContentCell !== undefined) {
-        // const parseContent = collectionContentCell!.beginParse().skip(8);
-        // const contentDict = parseContent.loadDict(Dictionary.Keys.BigUint(256), Dictionary.Values.Cell());
-        //
-        // const nameCell = contentDict.get(toSha256('name'))?.beginParse().skip(8);
-        // const name = nameCell?.loadStringTail();
-        //
-        // const descriptionCell = contentDict.get(toSha256('description'))?.beginParse().skip(8);
-        // const description = descriptionCell?.loadStringTail();
-        //
-        // const imageCell = contentDict.get(toSha256('image'))?.beginParse().skip(8);
-        // const image = imageCell?.loadStringTail();
-        //
-        // collectionContent = { name, description, image };
-        // }
-        // }
-
-        // const commonContentCell = contentCell?.loadRef();
-        // const commonContent = null; //decodeOffChainContent(commonContentCell);
-
-        const ownerAddress = stack.readAddress();
-
-        return {
-            nextItemIndex,
-            ownerAddress,
-            content: contentCell
-            // content: { collectionContent, commonContent }
-        };
+        return {nextItemIndex, ownerAddress, content};
     }
 
     async getNextItemIndex(provider: ContractProvider): Promise<number> {

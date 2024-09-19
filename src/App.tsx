@@ -25,10 +25,7 @@ function App() {
         nextItemIndex,
         content,
         ownerAddress,
-        sendDeployNft,
-        sendBatchDeployNft,
-        sendRoyaltyParams,
-        sendChangeOwner
+        sendDeployNft
     } = useNftCollectionContract();
 
     const {connected} = useTonConnect();
@@ -129,28 +126,7 @@ function App() {
                         {connected && (
                             <button onClick={() => {
                                 sendDeployNft()
-                            }}>Deploy NFT</button>
-                        )}
-                        <br/>
-                        <br/>
-                        {connected && (
-                            <button onClick={() => {
-                                sendBatchDeployNft()
-                            }}>Batch deploy NFTs</button>
-                        )}
-                        <br/>
-                        <br/>
-                        {connected && (
-                            <button onClick={() => {
-                                sendRoyaltyParams()
-                            }}>Send royalty params</button>
-                        )}
-                        <br/>
-                        <br/>
-                        {connected && (
-                            <button onClick={() => {
-                                sendChangeOwner()
-                            }}>Change owner</button>
+                            }}>I want Ludo NFT</button>
                         )}
                     </div>
                 </div>
