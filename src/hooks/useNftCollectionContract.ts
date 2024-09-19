@@ -16,15 +16,15 @@ export type NftCollectionData = {
 }
 
 const bronzeTier = {
-    52: "bafkreiblgiaqf37n2kme76km3637irvy5fjzftgi3vcxpjnhchcj5ogote"
+    rank_52: "bafkreiblgiaqf37n2kme76km3637irvy5fjzftgi3vcxpjnhchcj5ogote"
 }
 const silverTier = {
-    7: "bafkreiezxqfi3snzoitqlgmuigvnaoxhcgjcixxts2dvtjkw7cs73xmlhy",
-    58: "bafkreifnmdb7wld6x56vjutnu44ritqyzpfyv5z3jqxoizieszkzmxx4ci"
+    rank_7: "bafkreiezxqfi3snzoitqlgmuigvnaoxhcgjcixxts2dvtjkw7cs73xmlhy",
+    rank_58: "bafkreifnmdb7wld6x56vjutnu44ritqyzpfyv5z3jqxoizieszkzmxx4ci"
 };
 const goldTier = {
-    15: "bafkreifi5ouoec2puflpmtrql5sabmoej65xxia2mi53djymuo2eloxrbq",
-    83: "bafkreidylqapqlhiwmgiwklihogwgzmmuxsi54xmljdm2x72ap3zlfp5ve"
+    rank_15: "bafkreifi5ouoec2puflpmtrql5sabmoej65xxia2mi53djymuo2eloxrbq",
+    rank_83: "bafkreidylqapqlhiwmgiwklihogwgzmmuxsi54xmljdm2x72ap3zlfp5ve"
 }
 const ipfsUrls = {
     "bronze": bronzeTier,
@@ -78,9 +78,10 @@ export function useNftCollectionContract() {
             console.log("TIER:", tier)
             const tierUrls = ipfsUrls[tier];
             const keys: string[] = Object.keys(tierUrls);
-            const rank: string = keys[Math.floor(Math.random() * keys.length)];
-            console.log("RANK:", tier)
-            const url = `https://ipfs.io/ipfs/${tierUrls[rank]}`;
+            const key: string = keys[Math.floor(Math.random() * keys.length)];
+            const rank = Number(key.split("_")[1]);
+            console.log("RANK:", rank)
+            const url = `https://ipfs.io/ipfs/${tierUrls[key]}`;
             console.log("URL:", url)
 
             console.log("SENDER:", sender.address)
