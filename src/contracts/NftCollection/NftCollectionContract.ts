@@ -42,42 +42,30 @@ export function nftCollectionConfigToCell(config: NftCollectionConfig): Cell {
 }
 
 export function createMintBody(params: MintParams): Cell {
-    const content = beginCell()
-        .storeAddress(params.itemOwnerAddress)
-        .storeRef(encodeOffChainContent(params.content))
-        .endCell();
-
     const body = beginCell();
     body.storeUint(NftCollectionOpCodes.deployNft, 32);
     body.storeUint(params.queryId || 0, 64);
     body.storeCoins(params.amount);
-    body.storeRef(content);
+    body.storeRef(encodeOffChainContent(params.content));
 
     return body.endCell();
 }
 
 class CollectionMintNftItemInputDictionaryValue implements DictionaryValue<MintParams> {
     serialize(src: MintParams, cell: Builder): void {
-        const nftItemContent = beginCell();
-        nftItemContent.storeAddress(src.itemOwnerAddress);
-        nftItemContent.storeRef(encodeOffChainContent(src.content))
-        nftItemContent.endCell();
-
         cell.storeCoins(src.amount);
-        cell.storeRef(nftItemContent);
+        cell.storeRef(encodeOffChainContent(src.content));
     }
 
     parse(cell: Slice): MintParams {
         const queryId = cell.loadUint(64);
         const amount = cell.loadCoins();
 
-        const nftItemContent = cell.loadRef().beginParse();
-        const itemOwnerAddress = nftItemContent.loadAddress();
+        // const nftItemContent = cell.loadRef().beginParse();
         // const content = cell.loadRef().beginParse(); //decodeOffChainContent(nftItemContent.loadRef())!;
 
         return {
             queryId,
-            itemOwnerAddress,
             amount,
             content: "eee"
         }
@@ -122,6 +110,7 @@ export class NftCollectionContract implements Contract {
     }
 
     async sendDeployNft(provider: ContractProvider, via: Sender, value: bigint, mintParams: MintParams) {
+        console.log("SENDER ADDRESS ACTION:", via.address)
         await provider.internal(via, {
             value,
             sendMode: SendMode.PAY_GAS_SEPARATELY,

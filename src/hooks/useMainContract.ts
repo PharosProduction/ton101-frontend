@@ -1,9 +1,9 @@
 import {useTonClient} from "./useTonClient.ts";
+import {useTonConnect} from "./useTonConnect.ts";
 import {useEffect, useState} from "react";
 import {Address, OpenedContract, toNano} from "@ton/core";
 import {useAsyncInitialize} from "./useAsyncInitialize.ts";
 import {MainContract} from "../contracts/MainContract.ts";
-import {useTonConnect} from "./useTonConnect.ts";
 
 const mainContractAddress = "EQAvJAP7cJHW7oQrI1laKq63UgNmD30Qt5uRN3XgNxDj0jWV";
 
@@ -34,13 +34,13 @@ export function useMainContract() {
             if (!mainContract) return;
 
             const val = await mainContract.getStorageData();
-            const {balance} = await mainContract.getBalance();
-
             setContractData({
                 counter_value: val.number,
                 recent_sender: val.recent_sender,
                 owner: val.owner
             });
+
+            const {balance} = await mainContract.getBalance();
             setBalance(balance);
 
             await sleep(5000);
@@ -56,6 +56,7 @@ export function useMainContract() {
         contract_balance: balance,
         ...contractData,
         sendIncrement: async () => {
+            console.log("SENDER:", sender)
             return mainContract?.sendIncrement(sender, toNano("0.05"), 2);
         },
         sendDeposit: async () => {

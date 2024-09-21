@@ -1,23 +1,16 @@
 import './App.css'
-import {TonConnectButton} from "@tonconnect/ui-react";
-import {useMainContract} from "./hooks/useMainContract.ts";
-import {useTonConnect} from "./hooks/useTonConnect.ts";
+import {Locales, TonConnectButton, useTonConnectUI} from "@tonconnect/ui-react";
 import {fromNano} from "@ton/core";
 import WebApp from "@twa-dev/sdk";
-import {BackButton, MainButton} from "@twa-dev/sdk/react";
 import {useNftCollectionContract} from "./hooks/useNftCollectionContract.ts";
 
 function App() {
-    const {
-        contract_address: mainContractAddress,
-        contract_balance: mainContractBalance,
-        counter_value,
-        // recent_sender,
-        // owner,
-        sendIncrement,
-        sendDeposit,
-        sendWithdrawalRequest
-    } = useMainContract();
+    const [tonConnectUI, setOptions] = useTonConnectUI();
+    const connected = tonConnectUI.connected;
+
+    const onLanguageChange = (lang: string) => {
+        setOptions({ language: lang as Locales });
+    };
 
     const {
         contract_address: nftCollectionContractAddress,
@@ -27,12 +20,6 @@ function App() {
         ownerAddress,
         sendDeployNft
     } = useNftCollectionContract();
-
-    const {connected} = useTonConnect();
-
-    const showAlert = () => {
-        WebApp.showAlert("Hi");
-    };
 
     return (
         <div className="container">
@@ -45,56 +32,10 @@ function App() {
                         <b>Platform</b>
                         <div className='Hint'>{WebApp.platform}</div>
                         <br/>
-                        <br/>
-                        {WebApp.platform !== "unknown" && <button onClick={() => {
-                            showAlert()
-                        }}>Show alert</button>}
-                        <br/>
-                        <br/>
-                        {WebApp.platform !== "unknown" && <MainButton text="Test Submit" onClick={() => alert('submitted')}/>}
-                        {WebApp.platform !== "unknown" && <BackButton onClick={() => {
-                            alert('Test back');
-                            window.history.back();
-                        }}/>}
-                        <br/>
-                    </div>
-                </div>
 
-                <div className="col-sm-12 col-md m-2">
-                    <div className='card p-4'>
-                        <b>Counter Address</b>
-                        <div className='Hint'>{mainContractAddress}</div>
+                        <b>Sender Address</b>
+                        <div className='Hint'>{tonConnectUI.wallet?.account.address}</div>
                         <br/>
-
-                        <b>Counter Balance</b>
-                        <div className='Hint'>{fromNano(`${mainContractBalance}`).toString()} 💎TON</div>
-                        <br/>
-
-                        <b>Counter Value</b>
-                        <div>{counter_value ?? "Loading..."}</div>
-
-                        <br/>
-                        <br/>
-
-                        {connected && (
-                            <button onClick={() => {
-                                sendIncrement()
-                            }}>Increment by 2</button>
-                        )}
-                        <br/>
-                        <br/>
-                        {connected && (
-                            <button onClick={() => {
-                                sendDeposit()
-                            }}>Request deposit of 1.5 💎TON</button>
-                        )}
-                        <br/>
-                        <br/>
-                        {connected && (
-                            <button onClick={() => {
-                                sendWithdrawalRequest()
-                            }}>Request 0.7 💎TON withdrawal</button>
-                        )}
                     </div>
                 </div>
 
@@ -121,6 +62,16 @@ function App() {
                         <br/>
 
                         <br/>
+
+                        <div>
+                            <label>language</label>
+                            <br/>
+                            <select onChange={e => onLanguageChange(e.target.value)}>
+                                <option value="en">en</option>
+                                <option value="ru">ru</option>
+                            </select>
+                        </div>
+
                         <br/>
 
                         {connected && (
@@ -136,3 +87,69 @@ function App() {
 }
 
 export default App
+
+// < div
+// className = "col-sm-12 col-md m-2" >
+//     < div
+// className = 'card p-4' >
+//     < b > Counter
+// Address < /b>
+// <div className='Hint'>{mainContractAddress}</div>
+// <br/>
+//
+// <b>Counter Balance</b>
+// <div className='Hint'>{fromNano(`${mainContractBalance}`).toString()} 💎TON</div>
+// <br/>
+//
+// <b>Counter Value</b>
+// <div>{counter_value ?? "Loading..."}</div>
+//
+// <br/>
+// <br/>
+//
+// {
+//     connected && (
+//         <button onClick={() => {
+//             sendIncrement()
+//         }}>Increment by 2</button>
+//     )
+// }
+// <br/>
+// <br/>
+// {
+//     connected && (
+//         <button onClick={() => {
+//             sendDeposit()
+//         }}>Request deposit of 1.5 💎TON</button>
+//     )
+// }
+// <br/>
+// <br/>
+// {
+//     connected && (
+//         <button onClick={() => {
+//             sendWithdrawalRequest()
+//         }}>Request 0.7 💎TON withdrawal</button>
+//     )
+// }
+// </div>
+// </div>
+
+
+// <br/>
+// <br/>
+// {WebApp.platform !== "unknown" && <button onClick={() => {
+//         showAlert()
+//     }}>Show alert</button>}
+// <br/>
+// <br/>
+// {WebApp.platform !== "unknown" && <MainButton text="Test Submit" onClick={() => alert('submitted')}/>}
+// {WebApp.platform !== "unknown" && <BackButton onClick={() => {
+//     alert('Test back');
+//     window.history.back();
+// }}/>}
+
+//
+// const showAlert = () => {
+//     WebApp.showAlert("Hi");
+// };
