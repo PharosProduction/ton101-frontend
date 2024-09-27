@@ -11,7 +11,7 @@ export function encodeOffChainContent(content: string): Cell {
     return makeSnakeCell(data);
 }
 
-export function decodeOffChainContent(content: Cell | undefined): string | null {
+export function decodeOffChainContent(content: Cell | undefined | null): string | null {
     if (!content) {
         throw new Error(`No content`);
     }

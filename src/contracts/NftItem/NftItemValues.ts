@@ -16,7 +16,6 @@ export function onchainNftContent(walletAddress: string): OnchainNftContent {
             {"trait_type":"Deploy", "value":"manual"}
         ],
         image: "https://www.ludo.ninja/public/video/frames/LR-NFT-231.png",
-        video: "https://www.youtube.com/watch?v=mVTV97CGLMk",
         animationUrl: "https://www.youtube.com/watch?v=mVTV97CGLMk",
         rank: "72",
         tier: "platinum",

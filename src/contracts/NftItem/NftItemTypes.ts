@@ -15,7 +15,6 @@ export type OnchainNftContent = {
     description: string,
     attributes: Attribute[],
     image: string,
-    video: string,
     animationUrl: string,
     rank: string,
     tier: string,

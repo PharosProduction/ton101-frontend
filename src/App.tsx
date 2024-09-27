@@ -18,7 +18,9 @@ function App() {
         nextItemIndex,
         content,
         ownerAddress,
-        sendDeployNft
+        sendDeployNft,
+        sendEditNft,
+        sendTransferNft
     } = useNftCollectionContract();
 
     return (
@@ -78,6 +80,16 @@ function App() {
                             <button onClick={() => {
                                 sendDeployNft()
                             }}>I want Ludo NFT</button>
+                        )}
+                        {connected && (
+                            <button onClick={() => {
+                                sendEditNft()
+                            }}>Edit with new content</button>
+                        )}
+                        {connected && (
+                            <button onClick={() => {
+                                sendTransferNft()
+                            }}>Transfer to new owner</button>
                         )}
                     </div>
                 </div>

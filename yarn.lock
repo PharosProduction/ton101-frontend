@@ -512,7 +512,7 @@
 
 "@ton/core@^0.58.1":
   version "0.58.1"
-  resolved "https://registry.yarnpkg.com/@ton/core/-/core-0.58.1.tgz#f6f2ecef6a7149bcd23825bfbb454f116d54363f"
+  resolved "https://registry.npmjs.org/@ton/core/-/core-0.58.1.tgz"
   integrity sha512-zydh42iT6E3U3Ky/DhTFqJMN/ycKKzbsHASY257Qr2sZn97G/MOcHFizPfMnbJJgx0H9iHX6mdyMvp1IKBVAFA==
   dependencies:
     symbol.inspect "1.0.1"
@@ -526,7 +526,7 @@
 
 "@ton/crypto@^3.3.0":
   version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@ton/crypto/-/crypto-3.3.0.tgz#019103df6540fbc1d8102979b4587bc85ff9779e"
+  resolved "https://registry.npmjs.org/@ton/crypto/-/crypto-3.3.0.tgz"
   integrity sha512-/A6CYGgA/H36OZ9BbTaGerKtzWp50rg67ZCH2oIjV1NcrBaCK9Z343M+CxedvM7Haf3f/Ee9EhxyeTp0GKMUpA==
   dependencies:
     "@ton/crypto-primitives" "2.1.0"
@@ -873,7 +873,7 @@ bn.js@^5.0.0, bn.js@^5.2.1:
 
 bootstrap@^5.3.3:
   version "5.3.3"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.3.3.tgz#de35e1a765c897ac940021900fcbb831602bac38"
+  resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-5.3.3.tgz"
   integrity sha512-8HLCdWgyoMguSO9o+aH+iuZ+aht+mzW0u3HIMzVu7Srrpv7EBBxTnrFlSCskwdY1+EOFQSm7uMJhNQHkdPcmjg==
 
 brace-expansion@^1.1.7:
