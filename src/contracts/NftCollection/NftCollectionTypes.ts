@@ -35,9 +35,10 @@ export type NftCollectionConfig = {
 }
 
 export type MintParams = {
-    queryId: number | null,
-    nftBalance: bigint,
+    nftBalance: number,
     nftContent: string | null,
+    nftRank: number | null,
+    nftTier: string | null
 }
 
 export type NftCollectionData = {

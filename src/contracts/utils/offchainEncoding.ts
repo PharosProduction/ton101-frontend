@@ -3,7 +3,11 @@ import { OFFCHAIN_CONTENT_PREFIX } from './constants';
 
 // Public
 
-export function encodeOffChainContent(content: string): Cell {
+export function encodeOffChainContent(content: string | null): Cell {
+    if (!content) {
+        return beginCell().endCell();
+    }
+
     let data = Buffer.from(content);
     const prefix = Buffer.from([0x01]);
     data = Buffer.concat([prefix, data]);
@@ -11,9 +15,9 @@ export function encodeOffChainContent(content: string): Cell {
     return makeSnakeCell(data);
 }
 
-export function decodeOffChainContent(content: Cell | undefined | null): string | null {
+export function decodeOffChainContent(content: Cell | null): string | null {
     if (!content) {
-        throw new Error(`No content`);
+        return null;
     }
 
     const data = flattenSnakeCell(content);

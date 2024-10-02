@@ -1,7 +1,7 @@
 import { address } from '@ton/core';
 import { OnchainNftContent } from './NftItemTypes';
 
-export const offchainNftContent = 'https://ipfs.io/ipfs/bafkreigdpnfbru6turpzkvuslg36vregf4lfglwoj3ko5yjpwg252p25di';
+export const offchainPrepareNftContent = 'https://ipfs.io/ipfs/bafkreih7qemu7w4fusrry5qveufbseaejkft2bn45ss4waz376gpek6tn4';
 
 export function onchainNftContent(walletAddress: string): OnchainNftContent {
     return {

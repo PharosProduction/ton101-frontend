@@ -3,6 +3,7 @@ import {Locales, TonConnectButton, useTonConnectUI} from "@tonconnect/ui-react";
 import {fromNano} from "@ton/core";
 import WebApp from "@twa-dev/sdk";
 import {useNftCollectionContract} from "./hooks/useNftCollectionContract.ts";
+import {useEffect, useState} from "react";
 
 function App() {
     const [tonConnectUI, setOptions] = useTonConnectUI();
@@ -12,6 +13,13 @@ function App() {
         setOptions({ language: lang as Locales });
     };
 
+    const [rank, setRank] = useState<number | null>(null);
+    const [tier, setTier] = useState<string | null>(null);
+    const [totalNfts, setTotalNfts] = useState<number | null>(null);
+    const [tonNfts, setTonNfts] = useState<number | null>(null);
+    const [polygonNfts, setPolygonNfts] = useState<number | null>(null);
+    const [mvxNfts, setMvxNfts] = useState<number | null>(null);
+
     const {
         contract_address: nftCollectionContractAddress,
         contract_balance: nftCollectionContractBalance,
@@ -19,13 +27,117 @@ function App() {
         content,
         ownerAddress,
         sendDeployNft,
-        sendEditNft,
-        sendTransferNft
+        sendEditNft
     } = useNftCollectionContract();
+
+    tonConnectUI.connectionRestored.then(restored => {
+        if (restored) {
+            console.log(
+                'Connection restored. Wallet:',
+                JSON.stringify({
+                    ...tonConnectUI.wallet
+                })
+            );
+        } else {
+            console.log('Connection was not restored.');
+        }
+    });
+
+    useEffect(() => {
+        if (!tonConnectUI.wallet?.account.address) return;
+
+        fetch(`https://telegram.ludo.ninja:8060/wallets/rank?blockchain=ton&address=${tonConnectUI.wallet?.account.address}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json; charset=UTF-8',
+                'x-client-authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJuaW5qYS5sdWRvIiwic3ViIjoidGctYm90IiwiYXVkIjoidXNlcnMiLCJpYXQiOjE3MTQ0NjU4NDEsImV4cCI6MTc0NjAwMTg0MSwianRpIjoiNTRhYjkyOGUtZmVmMy00YjUzLWE4ZDctYjI3NmNlMTM5YmQ3Iiwic2hvd05zZnciOnRydWUsInJvbGUiOiJjb21wYW55IiwiYXV0aG9yaXRpZXMiOlsiU0VBUkNIIl0sInRhcmlmZiI6IkVYVEVOU0lPTiJ9.DZ7JqpceNXiH8fSjN2ynBWdtBgGSZ-_O9DLMAaaRwwmflqluHQJeZBr5sjP-BC7eDL1avOTEmjcnmre8aXhwbg',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setRank(data.rank);
+            })
+            .catch(() => {
+                setRank(0)
+            });
+
+        const currentWallet = tonConnectUI.wallet;
+        console.log("CURRENT WALLET:", currentWallet);
+        const currentAccount = tonConnectUI.account;
+        console.log("CURRENT ACCOUNT:", currentAccount);
+        const currentIsConnectedStatus = tonConnectUI.connected;
+        console.log("CURRENT CONNECTED STATUS:", currentIsConnectedStatus);
+    }, [tonConnectUI.wallet?.account.address]);
+
+    useEffect(() => {
+        fetch(`https://counters.ludo.ninja:8090/minting/stats`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json; charset=UTF-8',
+                'x-client-authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJuaW5qYS5sdWRvIiwic3ViIjoidGctYm90IiwiYXVkIjoidXNlcnMiLCJpYXQiOjE3MTQ0NjU4NDEsImV4cCI6MTc0NjAwMTg0MSwianRpIjoiNTRhYjkyOGUtZmVmMy00YjUzLWE4ZDctYjI3NmNlMTM5YmQ3Iiwic2hvd05zZnciOnRydWUsInJvbGUiOiJjb21wYW55IiwiYXV0aG9yaXRpZXMiOlsiU0VBUkNIIl0sInRhcmlmZiI6IkVYVEVOU0lPTiJ9.DZ7JqpceNXiH8fSjN2ynBWdtBgGSZ-_O9DLMAaaRwwmflqluHQJeZBr5sjP-BC7eDL1avOTEmjcnmre8aXhwbg',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setTotalNfts(data.total);
+                setTonNfts(0);
+                setPolygonNfts(0);
+                setMvxNfts(0);
+            })
+            .catch(() => {
+                setTotalNfts(0);
+                setTonNfts(0);
+                setPolygonNfts(0);
+                setMvxNfts(0);
+            });
+    }, []);
+
+    useEffect(() => {
+        if (!tonConnectUI.wallet?.account.address) return;
+
+        fetch(`https://telegram.ludo.ninja:8060/tiers/ton/${tonConnectUI.wallet?.account.address}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json; charset=UTF-8',
+                'x-client-authorization': 'eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJuaW5qYS5sdWRvIiwic3ViIjoidGctYm90IiwiYXVkIjoidXNlcnMiLCJpYXQiOjE3MTQ0NjU4NDEsImV4cCI6MTc0NjAwMTg0MSwianRpIjoiNTRhYjkyOGUtZmVmMy00YjUzLWE4ZDctYjI3NmNlMTM5YmQ3Iiwic2hvd05zZnciOnRydWUsInJvbGUiOiJjb21wYW55IiwiYXV0aG9yaXRpZXMiOlsiU0VBUkNIIl0sInRhcmlmZiI6IkVYVEVOU0lPTiJ9.DZ7JqpceNXiH8fSjN2ynBWdtBgGSZ-_O9DLMAaaRwwmflqluHQJeZBr5sjP-BC7eDL1avOTEmjcnmre8aXhwbg',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.errors !== null) {
+                    setTier("User not found");
+                } else {
+                    setTier(data.tier);
+                }
+            })
+            .catch(() => {
+                setTier("User not found");
+            });
+    }, [tonConnectUI.wallet?.account.address]);
 
     return (
         <div className="container">
             <div className="row flex-row">
+                <div className="col-sm-12 col-md m-2">
+                    <div className="card p-4">
+                        <b>Total NFTs</b>
+                        <div className='Hint'>{totalNfts}</div>
+                        <br/>
+                        <b>TON NFTs</b>
+                        <div className='Hint'>{tonNfts}</div>
+                        <br/>
+                        <b>Polygon NFTs</b>
+                        <div className='Hint'>{polygonNfts}</div>
+                        <br/>
+                        <b>MultiversX NFTs</b>
+                        <div className='Hint'>{mvxNfts}</div>
+                        <br/>
+                    </div>
+                </div>
+
                 <div className="col-sm-12 col-md m-2">
                     <div className="card p-4">
                         <TonConnectButton/>
@@ -37,6 +149,14 @@ function App() {
 
                         <b>Sender Address</b>
                         <div className='Hint'>{tonConnectUI.wallet?.account.address}</div>
+                        <br/>
+
+                        <b>Ludo Rank</b>
+                        <div className='Hint'>{rank !== null ? rank : "Unable to calculate rank"}</div>
+                        <br/>
+
+                        <b>Ludo Tier</b>
+                        <div className='Hint'>{tier !== null ? tier : "Unknown user"}</div>
                         <br/>
                     </div>
                 </div>
@@ -78,18 +198,13 @@ function App() {
 
                         {connected && (
                             <button onClick={() => {
-                                sendDeployNft()
+                                sendDeployNft(rank || 0, tier || "Basic")
                             }}>I want Ludo NFT</button>
                         )}
                         {connected && (
                             <button onClick={() => {
                                 sendEditNft()
                             }}>Edit with new content</button>
-                        )}
-                        {connected && (
-                            <button onClick={() => {
-                                sendTransferNft()
-                            }}>Transfer to new owner</button>
                         )}
                     </div>
                 </div>
@@ -116,7 +231,7 @@ export default App
 // <b>Counter Value</b>
 // <div>{counter_value ?? "Loading..."}</div>
 //
-// <br/>
+// <br/>e
 // <br/>
 //
 // {

@@ -1,11 +1,6 @@
-import { Address, StateInit } from '@ton/core';
+import { Address } from '@ton/core';
 
-export type ContractInit = {
-    init: StateInit,
-    address: Address
-}
-
-type Attribute = {
+export type Attribute = {
     trait_type: string;
     value: string;
 };
@@ -27,18 +22,17 @@ export type NftItemConfig = {
     index: number | null;
     collectionAddress: Address | null;
     ownerAddress: Address;
-    onchainContent: OnchainNftContent | null;
-    offchainContent: string | null;
+    content: string | null;
+    rank: number | null;
+    tier: string | null;
 }
 
 export type NftItemContractData = {
     isInited: boolean;
-    itemIndex: number;
+    index: number;
     collectionAddress: Address | null;
     ownerAddress: Address | null;
-    content: NftItemContractContent | null;
-}
-
-export type NftItemContractContent = {
-
+    content: string | null;
+    rank: number | null;
+    tier: string | null;
 }
